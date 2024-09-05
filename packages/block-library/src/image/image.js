@@ -639,116 +639,112 @@ export default function Image( {
 						) }
 
 					<BlockControls group="other">
-						<ToolbarGroup>
-							<Dropdown
-								popoverProps={ { position: 'bottom right' } }
-								renderToggle={ ( { isOpen, onToggle } ) => (
-									<ToolbarButton
-										onClick={ onToggle }
-										aria-haspopup="true"
-										aria-expanded={ isOpen }
-										onKeyDown={ ( event ) => {
-											if (
-												! isOpen &&
-												event.keyCode === DOWN
-											) {
-												event.preventDefault();
-												onToggle();
-											}
-										} }
-									>
-										{ _x(
-											'Alt',
-											'Alternative text for an image. Block toolbar label, a low character count is preferred.'
-										) }
-									</ToolbarButton>
-								) }
-								renderContent={ () => (
-									<TextareaControl
-										className="wp-block-image__toolbar_content_textarea"
-										label={ __( 'Alternative text' ) }
-										value={ alt || '' }
-										onChange={ updateAlt }
-										disabled={ lockAltControls }
-										help={
-											lockAltControls ? (
-												<>{ lockAltControlsMessage }</>
-											) : (
-												<>
-													<ExternalLink
-														href={
-															// translators: Localized tutorial, if one exists. W3C Web Accessibility Initiative link has list of existing translations.
-															__(
-																'https://www.w3.org/WAI/tutorials/images/decision-tree/'
-															)
-														}
-													>
-														{ __(
-															'Describe the purpose of the image.'
-														) }
-													</ExternalLink>
-													<br />
-													{ __(
-														'Leave empty if decorative.'
-													) }
-												</>
-											)
+						<Dropdown
+							popoverProps={ { position: 'bottom right' } }
+							renderToggle={ ( { isOpen, onToggle } ) => (
+								<ToolbarButton
+									onClick={ onToggle }
+									aria-haspopup="true"
+									aria-expanded={ isOpen }
+									onKeyDown={ ( event ) => {
+										if (
+											! isOpen &&
+											event.keyCode === DOWN
+										) {
+											event.preventDefault();
+											onToggle();
 										}
-										__nextHasNoMarginBottom
-									/>
-								) }
-							/>
-							<Dropdown
-								popoverProps={ { position: 'bottom right' } }
-								renderToggle={ ( { isOpen, onToggle } ) => (
-									<ToolbarButton
-										onClick={ onToggle }
-										aria-haspopup="true"
-										aria-expanded={ isOpen }
-										onKeyDown={ ( event ) => {
-											if (
-												! isOpen &&
-												event.keyCode === DOWN
-											) {
-												event.preventDefault();
-												onToggle();
-											}
-										} }
-									>
-										{ __( 'Title' ) }
-									</ToolbarButton>
-								) }
-								renderContent={ () => (
-									<TextControl
-										__next40pxDefaultSize
-										className="wp-block-image__toolbar_content_textarea"
-										__nextHasNoMarginBottom
-										label={ __( 'Title attribute' ) }
-										value={ title || '' }
-										onChange={ onSetTitle }
-										disabled={ lockTitleControls }
-										help={
-											lockTitleControls ? (
-												<>
-													{ lockTitleControlsMessage }
-												</>
-											) : (
-												<>
+									} }
+								>
+									{ _x(
+										'Alt',
+										'Alternative text for an image. Block toolbar label, a low character count is preferred.'
+									) }
+								</ToolbarButton>
+							) }
+							renderContent={ () => (
+								<TextareaControl
+									className="wp-block-image__toolbar_content_textarea"
+									label={ __( 'Alternative text' ) }
+									value={ alt || '' }
+									onChange={ updateAlt }
+									disabled={ lockAltControls }
+									help={
+										lockAltControls ? (
+											<>{ lockAltControlsMessage }</>
+										) : (
+											<>
+												<ExternalLink
+													href={
+														// translators: Localized tutorial, if one exists. W3C Web Accessibility Initiative link has list of existing translations.
+														__(
+															'https://www.w3.org/WAI/tutorials/images/decision-tree/'
+														)
+													}
+												>
 													{ __(
-														'Describe the role of this image on the page.'
+														'Describe the purpose of the image.'
 													) }
-													<ExternalLink href="https://www.w3.org/TR/html52/dom.html#the-title-attribute">
-														{ __(
-															'(Note: many devices and browsers do not display this text.)'
-														) }
-													</ExternalLink>
-												</>
-											)
+												</ExternalLink>
+												<br />
+												{ __(
+													'Leave empty if decorative.'
+												) }
+											</>
+										)
+									}
+									__nextHasNoMarginBottom
+								/>
+							) }
+						/>
+						<Dropdown
+							popoverProps={ { position: 'bottom right' } }
+							renderToggle={ ( { isOpen, onToggle } ) => (
+								<ToolbarButton
+									onClick={ onToggle }
+									aria-haspopup="true"
+									aria-expanded={ isOpen }
+									onKeyDown={ ( event ) => {
+										if (
+											! isOpen &&
+											event.keyCode === DOWN
+										) {
+											event.preventDefault();
+											onToggle();
 										}
-									/>
-								) }
-							/>
-						</ToolbarGroup>
+									} }
+								>
+									{ __( 'Title' ) }
+								</ToolbarButton>
+							) }
+							renderContent={ () => (
+								<TextControl
+									__next40pxDefaultSize
+									className="wp-block-image__toolbar_content_textarea"
+									__nextHasNoMarginBottom
+									label={ __( 'Title attribute' ) }
+									value={ title || '' }
+									onChange={ onSetTitle }
+									disabled={ lockTitleControls }
+									help={
+										lockTitleControls ? (
+											<>{ lockTitleControlsMessage }</>
+										) : (
+											<>
+												{ __(
+													'Describe the role of this image on the page.'
+												) }
+												<ExternalLink href="https://www.w3.org/TR/html52/dom.html#the-title-attribute">
+													{ __(
+														'(Note: many devices and browsers do not display this text.)'
+													) }
+												</ExternalLink>
+											</>
+										)
+									}
+								/>
+							) }
+						/>
 					</BlockControls>
 				</>
 			) }
