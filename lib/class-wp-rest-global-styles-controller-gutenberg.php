@@ -581,6 +581,7 @@ class WP_REST_Global_Styles_Controller_Gutenberg extends WP_REST_Controller {
 	 * Checks if a given request has access to read a single theme global styles config.
 	 *
 	 * @since 5.9.0
+	 * @since 6.7.0 Allow users with edit post capabilities to view theme global styles.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has read access for the item, WP_Error object otherwise.
@@ -590,17 +591,23 @@ class WP_REST_Global_Styles_Controller_Gutenberg extends WP_REST_Controller {
 		 * Verify if the current user has edit_posts capability.
 		 * This capability is required to view global styles.
 		 */
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			return new WP_Error(
-				'rest_cannot_manage_global_styles',
-				__( 'Sorry, you are not allowed to access the global styles on this site.', 'gutenberg' ),
-				array(
-					'status' => rest_authorization_required_code(),
-				)
-			);
+		if ( current_user_can( 'edit_posts' ) ) {
+			return true;
 		}
 
-		return true;
+		foreach ( get_post_types( array( 'show_in_rest' => true ), 'objects' ) as $post_type ) {
+			if ( current_user_can( $post_type->cap->edit_posts ) ) {
+				return true;
+			}
+		}
+
+		return new WP_Error(
+			'rest_cannot_manage_global_styles',
+			__( 'Sorry, you are not allowed to access the global styles on this site.', 'gutenberg' ),
+			array(
+				'status' => rest_authorization_required_code(),
+			)
+		);
 	}
 
 	/**
