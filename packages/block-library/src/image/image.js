@@ -657,7 +657,7 @@ export default function Image( {
 									} }
 								>
 									{ _x(
-										'Alt',
+										'Alternative text',
 										'Alternative text for an image. Block toolbar label, a low character count is preferred.'
 									) }
 								</ToolbarButton>
@@ -697,54 +697,58 @@ export default function Image( {
 								/>
 							) }
 						/>
-						<Dropdown
-							popoverProps={ { position: 'bottom right' } }
-							renderToggle={ ( { isOpen, onToggle } ) => (
-								<ToolbarButton
-									onClick={ onToggle }
-									aria-haspopup="true"
-									aria-expanded={ isOpen }
-									onKeyDown={ ( event ) => {
-										if (
-											! isOpen &&
-											event.keyCode === DOWN
-										) {
-											event.preventDefault();
-											onToggle();
-										}
-									} }
-								>
-									{ __( 'Title' ) }
-								</ToolbarButton>
-							) }
-							renderContent={ () => (
-								<TextControl
-									__next40pxDefaultSize
-									className="wp-block-image__toolbar_content_textarea"
-									__nextHasNoMarginBottom
-									label={ __( 'Title attribute' ) }
-									value={ title || '' }
-									onChange={ onSetTitle }
-									disabled={ lockTitleControls }
-									help={
-										lockTitleControls ? (
-											<>{ lockTitleControlsMessage }</>
-										) : (
-											<>
-												{ __(
-													'Describe the role of this image on the page.'
-												) }
-												<ExternalLink href="https://www.w3.org/TR/html52/dom.html#the-title-attribute">
+						{ title && (
+							<Dropdown
+								popoverProps={ { position: 'bottom right' } }
+								renderToggle={ ( { isOpen, onToggle } ) => (
+									<ToolbarButton
+										onClick={ onToggle }
+										aria-haspopup="true"
+										aria-expanded={ isOpen }
+										onKeyDown={ ( event ) => {
+											if (
+												! isOpen &&
+												event.keyCode === DOWN
+											) {
+												event.preventDefault();
+												onToggle();
+											}
+										} }
+									>
+										{ __( 'Title' ) }
+									</ToolbarButton>
+								) }
+								renderContent={ () => (
+									<TextControl
+										__next40pxDefaultSize
+										className="wp-block-image__toolbar_content_textarea"
+										__nextHasNoMarginBottom
+										label={ __( 'Title attribute' ) }
+										value={ title || '' }
+										onChange={ onSetTitle }
+										disabled={ lockTitleControls }
+										help={
+											lockTitleControls ? (
+												<>
+													{ lockTitleControlsMessage }
+												</>
+											) : (
+												<>
 													{ __(
-														'(Note: many devices and browsers do not display this text.)'
+														'Describe the role of this image on the page.'
 													) }
-												</ExternalLink>
-											</>
-										)
-									}
-								/>
-							) }
-						/>
+													<ExternalLink href="https://www.w3.org/TR/html52/dom.html#the-title-attribute">
+														{ __(
+															'(Note: many devices and browsers do not display this text.)'
+														) }
+													</ExternalLink>
+												</>
+											)
+										}
+									/>
+								) }
+							/>
+						) }
 					</BlockControls>
 				</>
 			) }
