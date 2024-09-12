@@ -543,8 +543,8 @@ export const getBlockStyles = createSelector(
  *
  * @return {boolean} Is zoom out mode enabled.
  */
-export function isZoomOutMode( state ) {
-	return state.editorMode === 'zoom-out';
+export function isComposeMode( state ) {
+	return state.editorMode === 'compose';
 }
 
 export function getSectionRootClientId( state ) {

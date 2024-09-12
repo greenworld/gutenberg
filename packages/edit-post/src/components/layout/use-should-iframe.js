@@ -19,7 +19,7 @@ export function useShouldIframe() {
 		hasV3BlocksOnly,
 		isEditingTemplate,
 		hasMetaBoxes,
-		isZoomOutMode,
+		isComposeMode,
 	} = useSelect( ( select ) => {
 		const { getEditorSettings, getCurrentPostType } = select( editorStore );
 		const { __unstableGetEditorMode } = select( blockEditorStore );
@@ -32,7 +32,7 @@ export function useShouldIframe() {
 			} ),
 			isEditingTemplate: getCurrentPostType() === 'wp_template',
 			hasMetaBoxes: select( editPostStore ).hasMetaBoxes(),
-			isZoomOutMode: __unstableGetEditorMode() === 'zoom-out',
+			isComposeMode: __unstableGetEditorMode() === 'compose',
 		};
 	}, [] );
 
@@ -40,6 +40,6 @@ export function useShouldIframe() {
 		( ( hasV3BlocksOnly || ( isGutenbergPlugin && isBlockBasedTheme ) ) &&
 			! hasMetaBoxes ) ||
 		isEditingTemplate ||
-		isZoomOutMode
+		isComposeMode
 	);
 }

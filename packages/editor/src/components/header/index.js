@@ -73,7 +73,7 @@ function Header( {
 			hasFixedToolbar: getPreference( 'core', 'fixedToolbar' ),
 			isNestedEntity:
 				!! getEditorSettings().onNavigateToPreviousEntityRecord,
-			isZoomedOutView: __unstableGetEditorMode() === 'zoom-out',
+			isComposeMode: __unstableGetEditorMode() === 'compose',
 		};
 	}, [] );
 

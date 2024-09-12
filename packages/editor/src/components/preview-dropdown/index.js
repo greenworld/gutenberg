@@ -38,11 +38,13 @@ export default function PreviewDropdown( { forceIsAutosaveable, disabled } ) {
 		isTemplate,
 		isViewable,
 		showIconLabels,
+		isZoomOut,
 	} = useSelect( ( select ) => {
 		const { getDeviceType, getCurrentPostType } = select( editorStore );
 		const { getEntityRecord, getPostType } = select( coreStore );
 		const { get } = select( preferencesStore );
-		const { __unstableGetEditorMode } = select( blockEditorStore );
+		const { __unstableGetEditorMode, isZoomOut: _isZoomOut } =
+			select( blockEditorStore );
 		const _currentPostType = getCurrentPostType();
 		return {
 			deviceType: getDeviceType(),
@@ -51,29 +53,31 @@ export default function PreviewDropdown( { forceIsAutosaveable, disabled } ) {
 			isTemplate: _currentPostType === 'wp_template',
 			isViewable: getPostType( _currentPostType )?.viewable ?? false,
 			showIconLabels: get( 'core', 'showIconLabels' ),
+			isZoomOut: _isZoomOut(),
 		};
 	}, [] );
 	const { setDeviceType } = useDispatch( editorStore );
-	const { __unstableSetEditorMode } = useDispatch( blockEditorStore );
+	const { __unstableSetEditorMode, setZoomOut } =
+		useDispatch( blockEditorStore );
 
 	/**
 	 * Save the original editing mode in a ref to restore it when we exit zoom out.
 	 */
-	const originalEditingModeRef = useRef( editorMode );
-	useEffect( () => {
-		if ( editorMode !== 'zoom-out' ) {
-			originalEditingModeRef.current = editorMode;
-		}
+	// const originalEditingModeRef = useRef( editorMode );
+	// useEffect( () => {
+	// 	if ( editorMode !== 'compose' ) {
+	// 		originalEditingModeRef.current = editorMode;
+	// 	}
 
-		return () => {
-			if (
-				editorMode === 'zoom-out' &&
-				editorMode !== originalEditingModeRef.current
-			) {
-				__unstableSetEditorMode( originalEditingModeRef.current );
-			}
-		};
-	}, [ editorMode, __unstableSetEditorMode ] );
+	// 	return () => {
+	// 		if (
+	// 			editorMode === 'compose' &&
+	// 			editorMode !== originalEditingModeRef.current
+	// 		) {
+	// 			__unstableSetEditorMode( originalEditingModeRef.current );
+	// 		}
+	// 	};
+	// }, [ editorMode, __unstableSetEditorMode ] );
 
 	const isMobile = useViewportMatch( 'medium', '<' );
 	if ( isMobile ) {
@@ -131,7 +135,7 @@ export default function PreviewDropdown( { forceIsAutosaveable, disabled } ) {
 		icon: mobile,
 	} );
 
-	const previewValue = editorMode === 'zoom-out' ? 'ZoomOut' : deviceType;
+	const previewValue = isZoomOut ? 'ZoomOut' : deviceType;
 
 	/**
 	 * Handles the selection of a device type.
@@ -139,16 +143,15 @@ export default function PreviewDropdown( { forceIsAutosaveable, disabled } ) {
 	 * @param {string} value The device type.
 	 */
 	const onSelect = ( value ) => {
-		let newEditorMode = originalEditingModeRef.current;
+		// const newEditorMode = originalEditingModeRef.current;
 
 		if ( value === 'ZoomOut' ) {
-			newEditorMode = 'zoom-out';
 			setDeviceType( 'Desktop' );
+			setZoomOut( true );
 		} else {
 			setDeviceType( value );
+			setZoomOut( false );
 		}
-
-		__unstableSetEditorMode( newEditorMode );
 	};
 
 	return (
@@ -161,7 +164,7 @@ export default function PreviewDropdown( { forceIsAutosaveable, disabled } ) {
 			toggleProps={ toggleProps }
 			menuProps={ menuProps }
 			icon={ deviceIcons[ deviceType.toLowerCase() ] }
-			text={ editorMode === 'zoom-out' ? __( '50%' ) : undefined }
+			text={ isZoomOut ? __( '50%' ) : undefined }
 			label={ __( 'View' ) }
 			disableOpenOnArrowDown={ disabled }
 		>
