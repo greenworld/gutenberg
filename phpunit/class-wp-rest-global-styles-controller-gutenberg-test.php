@@ -202,7 +202,7 @@ class WP_REST_Global_Styles_Controller_Gutenberg_Test extends WP_Test_REST_Contr
 		wp_set_current_user( 0 );
 		$request  = new WP_REST_Request( 'GET', '/wp/v2/global-styles/themes/emptytheme' );
 		$response = rest_get_server()->dispatch( $request );
-		$this->assertErrorResponse( 'rest_cannot_manage_global_styles', $response, 401 );
+		$this->assertErrorResponse( 'rest_cannot_read_global_styles', $response, 401 );
 	}
 
 	/**
@@ -213,7 +213,7 @@ class WP_REST_Global_Styles_Controller_Gutenberg_Test extends WP_Test_REST_Contr
 		switch_theme( 'emptytheme' );
 		$request  = new WP_REST_Request( 'GET', '/wp/v2/global-styles/themes/emptytheme' );
 		$response = rest_get_server()->dispatch( $request );
-		$this->assertErrorResponse( 'rest_cannot_manage_global_styles', $response, 403 );
+		$this->assertErrorResponse( 'rest_cannot_read_global_styles', $response, 403 );
 	}
 
 	/**
